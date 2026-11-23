@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko" class="no-js">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>바이브코딩 미션센터 | 제미나이 캔버스 실습 프롬프트</title>
+  <meta name="description" content="초등학생을 위한 제미나이 캔버스 바이브코딩 실습 프롬프트 모음. 버튼 한 번으로 프롬프트를 복사해 나만의 웹게임과 웹앱을 만들어 보세요." />
+  <meta name="theme-color" content="#0d0a2b" />
+  <meta property="og:title" content="바이브코딩 미션센터" />
+  <meta property="og:description" content="버튼 한 번으로 프롬프트 복사! 제미나이 캔버스로 나만의 게임 만들기" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>" />
+
+  <!-- 본문 글꼴: Pretendard (인터넷이 막혀 있으면 기본 글꼴로 자동 대체) -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#quest">메인 퀘스트로 바로 가기</a>
+
+  <!-- 배경 별 -->
+  <div class="sky" aria-hidden="true"></div>
+
+  <!-- ===== 상단 HUD ===== -->
+  <header class="hud" id="hud">
+    <div class="hud__row">
+      <a class="logo" href="#home" aria-label="맨 위로">
+        <span class="logo__icon" aria-hidden="true">🎮</span>
+        <span class="logo__text">VIBE<b>CODER</b></span>
+      </a>
+
+      <div class="xp" aria-live="polite">
+        <span class="xp__lv" id="xpLevel">Lv.1</span>
+        <div class="xp__body">
+          <span class="xp__name" id="xpName">코딩 새싹</span>
+          <div class="xp__bar"><span id="xpFill"></span></div>
+        </div>
+        <span class="xp__num"><b id="xpNum">0</b> XP</span>
+      </div>
+    </div>
+
+    <nav class="nav" aria-label="단계 이동">
+      <a href="#howto" data-nav="howto"><span>0</span>준비</a>
+      <a href="#warmup" data-nav="warmup"><span>1</span>워밍업</a>
+      <a href="#quest" data-nav="quest"><span>2</span>메인 퀘스트</a>
+      <a href="#powerup" data-nav="powerup"><span>3</span>파워업</a>
+      <a href="#bugfix" data-nav="bugfix"><span>4</span>버그 잡기</a>
+      <a href="#mygame" data-nav="mygame"><span>5</span>나만의 게임</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="home">
+      <div class="hero__text reveal">
+        <p class="badge-pixel">🕹️ 제미나이 캔버스 · 바이브코딩 교실</p>
+        <h1 class="hero__title">
+          <span class="line1">나는야</span>
+          <span class="line2">바이브코딩</span>
+          <span class="line3">개발자!</span>
+        </h1>
+        <p class="hero__desc">
+          코드는 AI가 쓰고, <b>아이디어는 내가 낸다!</b><br />
+          마음에 드는 미션을 고르고 <b class="g">초록 버튼</b>을 누르면 프롬프트가 한 번에 복사돼요.
+        </p>
+        <div class="hero__btns">
+          <a class="btn-pixel btn-yellow" href="#howto">▶ PRESS START</a>
+          <a class="btn-pixel btn-cyan" href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer">✨ 제미나이 열기</a>
+        </div>
+      </div>
+
+      <!-- 오늘의 퀘스트 보드 -->
+      <aside class="questboard reveal" aria-label="오늘의 퀘스트">
+        <div class="questboard__head">
+          <span>📋 오늘의 퀘스트</span>
+          <span class="questboard__count"><b id="questDone">0</b>/4</span>
+        </div>
+        <ol class="questlist">
+          <li data-quest="q1"><span class="chk" aria-hidden="true"></span><div><b>워밍업</b> 프롬프트로 첫 작품 만들기</div></li>
+          <li data-quest="q2"><span class="chk" aria-hidden="true"></span><div><b>메인 퀘스트</b> 게임 1개 완성하기</div></li>
+          <li data-quest="q3"><span class="chk" aria-hidden="true"></span><div><b>파워업</b> 3번 이상 업그레이드하기 <small id="q3count">(0/3)</small></div></li>
+          <li data-quest="q4"><button type="button" class="chk chk-btn" id="q4btn" aria-pressed="false" aria-label="친구 작품 체험 완료 표시"></button><div><b>친구 작품</b> 체험하고 칭찬하기 <small>(직접 체크!)</small></div></li>
+        </ol>
+        <p class="questboard__tip">프롬프트를 복사하면 XP가 쌓이고 퀘스트가 자동으로 체크돼요!</p>
+      </aside>
+    </section>
+
+    <!-- ===== 0. 준비 ===== -->
+    <section class="section" id="howto">
+      <header class="section__head reveal">
+        <p class="stage">STAGE 0</p>
+        <h2>게임 준비! 이렇게 사용해요</h2>
+      </header>
+
+      <div class="steps">
+        <div class="step reveal">
+          <span class="step__num">1</span>
+          <h3>캔버스 켜기</h3>
+          <p><a href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer">gemini.google.com</a>에 들어가서 입력창 아래 <b>도구(또는 +)</b> 버튼 → <b>Canvas(캔버스)</b>를 켜요.</p>
+        </div>
+        <div class="step reveal">
+          <span class="step__num">2</span>
+          <h3>프롬프트 복사·붙여넣기</h3>
+          <p>미션을 고르고 <b class="g">프롬프트 한번에 복사</b>를 누른 뒤, 제미나이 입력창에 붙여넣기(<kbd>Ctrl</kbd>+<kbd>V</kbd>) 해요.</p>
+        </div>
+        <div class="step reveal">
+          <span class="step__num">3</span>
+          <h3>플레이하고 업그레이드</h3>
+          <p><b>미리보기</b>에서 게임을 해 보고, 고치고 싶은 점은 <b>같은 대화창</b>에 이어서 말해요.</p>
+        </div>
+      </div>
+
+      <div class="rules reveal">
+        <h3>🛡️ 개발자의 약속</h3>
+        <ul>
+          <li>본명, 학교 이름, 전화번호, 주소는 <b>절대 입력하지 않아요.</b> 별명을 써요.</li>
+          <li>친구 이름을 넣어서 놀리는 앱은 만들지 않아요.</li>
+          <li>만화·게임 캐릭터 대신 <b>내가 만든 캐릭터</b>를 써요.</li>
+          <li><b>[ ] 괄호 안</b>은 내 마음대로 바꿔도 돼요!</li>
+          <li>계정별로 사용할 수 있는 기능은 선생님 안내를 따라요.</li>
+        </ul>
+      </div>
+
+      <div class="formula reveal">
+        <h3>🧪 좋은 프롬프트 다섯 조각 공식</h3>
+        <div class="formula__grid">
+          <div><span>①</span><b>무엇을</b><small>두더지 잡기 게임</small></div>
+          <div><span>②</span><b>화면</b><small>구멍 9개, 점수판</small></div>
+          <div><span>③</span><b>규칙</b><small>잡으면 +1점, 30초</small></div>
+          <div><span>④</span><b>디자인</b><small>초록 잔디, 귀엽게</small></div>
+          <div><span>⑤</span><b>조건</b><small>한국어, 버튼 크게</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 1. 워밍업 ===== -->
+    <section class="section" id="warmup">
+      <header class="section__head reveal">
+        <p class="stage">STAGE 1</p>
+        <h2>워밍업 · 첫 작품 만들기</h2>
+        <p>모두 같은 프롬프트로 시작해요. <b>[ ]</b> 안만 내 이야기로 바꿔 보세요!</p>
+      </header>
+      <div class="cards cards--two" id="warmupList"></div>
+    </section>
+
+    <!-- ===== 2. 메인 퀘스트 ===== -->
+    <section class="section" id="quest">
+      <header class="section__head reveal">
+        <p class="stage">STAGE 2</p>
+        <h2>메인 퀘스트 · 게임 고르기</h2>
+        <p>마음에 드는 주제를 하나 골라요. 1차 프롬프트로 만들고, 완성되면 <b>2단계 기능 추가</b>에 도전!</p>
+      </header>
+
+      <div class="filters reveal" role="group" aria-label="분야 고르기">
+        <button type="button" class="chip is-on" data-filter="all">🌟 전체 <span class="chip__n" id="nAll"></span></button>
+        <button type="button" class="chip" data-filter="game">🎮 게임 <span class="chip__n" id="nGame"></span></button>
+        <button type="button" class="chip" data-filter="study">📚 학습·퀴즈 <span class="chip__n" id="nStudy"></span></button>
+        <button type="button" class="chip" data-filter="make">🎨 창의·생활 <span class="chip__n" id="nMake"></span></button>
+      </div>
+
+      <div class="stagemap reveal" id="stageMap" aria-label="주제 바로 가기"></div>
+
+      <div class="topics" id="topicList"></div>
+    </section>
+
+    <!-- ===== 3. 파워업 ===== -->
+    <section class="section" id="powerup">
+      <header class="section__head reveal">
+        <p class="stage">STAGE 3</p>
+        <h2>파워업 · 업그레이드 아이템</h2>
+        <p>게임이 완성됐다면 <b>같은 대화창</b>에 하나씩 붙여넣어요. 한 번에 1~2개씩만!</p>
+      </header>
+      <div class="cards cards--grid" id="powerupList"></div>
+    </section>
+
+    <!-- ===== 4. 버그 잡기 ===== -->
+    <section class="section" id="bugfix">
+      <header class="section__head reveal">
+        <p class="stage">STAGE 4</p>
+        <h2>버그 잡기 · 막혔을 때 쓰는 주문</h2>
+        <p>코드를 직접 고치지 말고, <b>무엇이 안 되는지 말로 설명</b>하는 게 바이브코딩 개발자의 방법이에요.</p>
+      </header>
+      <div class="cards cards--grid" id="bugfixList"></div>
+    </section>
+
+    <!-- ===== 5. 나만의 게임 ===== -->
+    <section class="section" id="mygame">
+      <header class="section__head reveal">
+        <p class="stage">STAGE 5 · BOSS</p>
+        <h2>나만의 아이디어로 새 게임 만들기</h2>
+        <p>빈칸을 채우면 프롬프트가 자동으로 완성돼요. 아이디어가 안 떠오르면 아래 <b>아이디어 버튼</b>을 눌러 보세요!</p>
+      </header>
+
+      <div class="builder reveal">
+        <form class="builder__form" id="builderForm" autocomplete="off" onsubmit="return false;">
+          <div class="idea-chips" role="group" aria-label="아이디어 예시">
+            <span>💡 아이디어:</span>
+            <button type="button" class="chip chip--sm" data-idea="0">두더지 × 수학</button>
+            <button type="button" class="chip chip--sm" data-idea="1">우주선 × 영어</button>
+            <button type="button" class="chip chip--sm" data-idea="2">요리 대회</button>
+            <button type="button" class="chip chip--sm" data-idea="3">분리수거 영웅</button>
+          </div>
+
+          <label class="field">
+            <span>🎮 게임 또는 웹앱 이름</span>
+            <input type="text" id="fName" maxlength="40" placeholder="예: 정답 두더지 대소동" />
+          </label>
+          <label class="field">
+            <span>🕹️ 무엇을 하는 프로그램인가요?</span>
+            <textarea id="fWhat" rows="3" maxlength="300" placeholder="예: 수학 문제가 나오면 정답이 적힌 두더지만 골라서 잡는 게임"></textarea>
+          </label>
+          <label class="field">
+            <span>🎨 배경과 디자인</span>
+            <textarea id="fDesign" rows="2" maxlength="200" placeholder="예: 밝은 초록 잔디밭, 귀여운 두더지 캐릭터, 신나는 분위기"></textarea>
+          </label>
+          <label class="field">
+            <span>🏁 성공 조건 또는 목표</span>
+            <textarea id="fGoal" rows="2" maxlength="200" placeholder="예: 30초 동안 정답 두더지를 10마리 잡으면 성공"></textarea>
+          </label>
+          <button type="button" class="btn-ghost" id="builderReset">↺ 빈칸 모두 지우기</button>
+        </form>
+
+        <div class="builder__out">
+          <div class="term">
+            <div class="term__bar"><i></i><i></i><i></i><span>my_game_prompt.txt</span></div>
+            <pre class="term__body term__body--tall" id="builderPrompt"></pre>
+          </div>
+          <div class="copy-row">
+            <button type="button" class="copy-btn" data-copy="builderPrompt" data-key="my">
+              <span class="copy-btn__ico" aria-hidden="true">▶</span>
+              <span class="copy-btn__lbl">프롬프트 한번에 복사</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer__big">GAME CLEAR? 🏆 오늘 만든 작품을 친구와 가족에게 자랑해 보세요!</p>
+    <p>AI콘텐츠마케팅연구소 유쌤클래스 · 친절한유성쌤</p>
+    <p class="footer__small">AI가 만든 정보나 정답이 틀릴 수도 있어요. 꼭 한 번 더 확인하는 습관을 가져요.</p>
+  </footer>
+
+  <!-- 맨위 버튼 -->
+  <button type="button" class="totop" id="toTop" aria-label="맨 위로 이동">
+    <span aria-hidden="true">▲</span>맨위
+  </button>
+
+  <!-- 알림 -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
