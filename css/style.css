@@ -1625,3 +1625,6 @@ main { overflow-x: hidden; overflow-x: clip; }
   .floaters span:nth-child(5) { display: none; }
   .floaters span:nth-child(1) { left: 84%; top: 34%; }
 }
+@media (min-width: 721px) {
+  .floaters span:nth-child(1) { left: -3%; top: 46%; }
+}
