@@ -1097,3 +1097,144 @@ main { display: block; }
   .term__body { max-height: none !important; color: #000; }
   .topic, .card { box-shadow: none; border-color: #999; background: #fff; }
 }
+
+/* =========================================================
+   가독성 개선 + 효과음 버튼 (v2)
+   - 큰 제목·로고·단계 표시만 픽셀 글꼴로 남기고
+   - 작은 글자(버튼, 메뉴, 카드 제목, 안내문)는 굵고 또렷한 글꼴로 바꿈
+   ========================================================= */
+:root {
+  --muted: #d9d4fb;          /* 회색 글자를 더 밝게 */
+  --round: "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+}
+
+body {
+  font-size: 18px;
+  line-height: 1.75;
+  letter-spacing: -0.01em;
+}
+
+/* 작은 글자는 또렷한 굵은 글꼴로 */
+.nav a,
+.chip,
+.card__title,
+.topic__title,
+.copy-btn,
+.btn-ghost,
+.btn-pixel,
+.field span,
+.questboard__head,
+.xp__name,
+.step h3,
+.rules h3,
+.formula h3,
+.formula__grid b,
+.level2 summary,
+.phase-label,
+.toast,
+.idea-chips,
+.footer__big,
+.badge-pixel,
+.totop,
+.term__bar,
+.sound-btn {
+  font-family: var(--round);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+/* 제목 크기·간격 */
+.card__title { font-size: 20px; line-height: 1.4; }
+.card--mini .card__title { font-size: 19px; }
+.topic__title { font-size: 24px; line-height: 1.35; }
+.step h3 { font-size: 21px; }
+.rules h3, .formula h3 { font-size: 21px; }
+.section__head h2 { letter-spacing: 0; line-height: 1.35; }
+.section__head p { font-size: 18px; line-height: 1.7; }
+.hero__desc { font-size: 19px; line-height: 1.75; }
+
+/* 설명 글자 */
+.card__desc,
+.topic__desc { font-size: 16.5px; line-height: 1.55; }
+.step p { font-size: 17px; }
+.rules li { font-size: 17px; }
+.formula__grid small { font-size: 15px; }
+.questlist li { font-size: 17px; }
+.questboard__tip { font-size: 15px; }
+.tag { font-size: 14px; padding: 3px 11px; }
+.footer p { font-size: 16px; }
+
+/* 메뉴·버튼 */
+.nav a { font-size: 15.5px; padding: 7px 14px; }
+.chip { font-size: 16px; }
+.chip--sm { font-size: 14.5px; }
+.btn-pixel { font-size: 18px; }
+.btn-ghost { font-size: 15px; }
+.level2 summary { font-size: 17px; }
+.phase-label { font-size: 15.5px; }
+.toast { font-size: 17px; line-height: 1.45; }
+.copy-btn { font-size: 20px; letter-spacing: 0; }
+.term__bar { font-size: 13px; font-weight: 600; }
+
+/* 프롬프트 상자: 더 크고 밝게 */
+.term__body {
+  font-size: 17px;
+  line-height: 1.85;
+  color: #f3f5ff;
+  max-height: 300px;
+  padding: 16px 18px;
+}
+.term__body .sec { color: #5ff0ff; font-weight: 800; }
+.term__body .fill { color: #ffe680; font-weight: 700; }
+.card--mini .term__body { max-height: 190px; }
+.term__body--tall { max-height: 460px; }
+
+/* 입력칸 */
+.field input,
+.field textarea { font-size: 17px; line-height: 1.6; }
+.field span { font-size: 17px; }
+
+/* ----- 효과음 버튼 ----- */
+.xp { margin-left: auto; }
+.sound-btn {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 6px 12px;
+  font-size: 14px;
+  color: #04232b;
+  background: var(--cyan);
+  border: 3px solid #000;
+  border-radius: 10px;
+  box-shadow: 0 4px 0 #148aa3;
+  cursor: pointer;
+  transition: transform .08s, box-shadow .08s, background .2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.sound-btn:hover { transform: translateY(-2px); }
+.sound-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #148aa3; }
+.sound-btn__ico { font-size: 17px; line-height: 1; }
+.sound-btn.is-off {
+  color: #e6e3ff;
+  background: #3a3478;
+  box-shadow: 0 4px 0 #221d52;
+}
+
+@media (max-width: 720px) {
+  body { font-size: 17px; }
+  .term__body { font-size: 16px; line-height: 1.8; max-height: 260px; padding: 14px 15px; }
+  .topic__title { font-size: 21px; }
+  .card__title { font-size: 19px; }
+  .copy-btn { font-size: 18px; }
+  .nav a { font-size: 14.5px; padding: 6px 11px; }
+  .section__head p, .hero__desc { font-size: 17px; }
+  .toast { font-size: 15.5px; }
+  .xp__bar { width: 64px; }
+  .sound-btn { padding: 6px 9px; min-height: 38px; }
+  .sound-btn__txt { display: none; }
+}
+@media (max-width: 380px) {
+  .logo__text { display: none; }
+}

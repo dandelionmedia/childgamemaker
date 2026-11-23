@@ -58,6 +58,115 @@
     );
   }
 
+
+  /* ---------- 효과음 (소리 파일 없이 브라우저에서 직접 만듦) ---------- */
+  var Sound = (function () {
+    var ctx = null, master = null;
+    var on = true;
+    try { if (window.localStorage.getItem("vc-sound") === "off") on = false; } catch (e) { /* 저장소 막힘 */ }
+
+    function ac() {
+      if (!on) return null;
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      if (!ctx) {
+        try {
+          ctx = new AC();
+          master = ctx.createGain();
+          master.gain.value = 0.22; // 전체 음량 (0~1)
+          master.connect(ctx.destination);
+        } catch (e) { ctx = null; return null; }
+      }
+      if (ctx.state === "suspended") ctx.resume();
+      return ctx;
+    }
+
+    // 음 하나 연주: 주파수, 시작(초), 길이(초), 파형, 크기, 끝 주파수(미끄러지는 소리)
+    function tone(freq, start, dur, type, vol, toFreq) {
+      var c = ac();
+      if (!c) return;
+      var t0 = c.currentTime + (start || 0);
+      var o = c.createOscillator();
+      var g = c.createGain();
+      o.type = type || "square";
+      o.frequency.setValueAtTime(freq, t0);
+      if (toFreq) o.frequency.exponentialRampToValueAtTime(toFreq, t0 + dur);
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(vol || 0.5, t0 + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+      o.connect(g);
+      g.connect(master);
+      o.start(t0);
+      o.stop(t0 + dur + 0.02);
+    }
+
+    function seq(notes, type, vol, gap) {
+      notes.forEach(function (n, i) { tone(n[0], i * (gap || 0.09), n[1] || 0.12, type, vol); });
+    }
+
+    return {
+      isOn: function () { return on; },
+      setOn: function (v) {
+        on = !!v;
+        try { window.localStorage.setItem("vc-sound", on ? "on" : "off"); } catch (e) { /* 무시 */ }
+        if (on) this.coin();
+      },
+      click: function () { tone(880, 0, 0.06, "square", 0.25, 1320); },             // 딸깍
+      select: function () { seq([[660, 0.07], [990, 0.09]], "square", 0.25, 0.06); }, // 메뉴·필터 선택
+      coin: function () { seq([[988, 0.08], [1319, 0.32]], "square", 0.35, 0.08); },  // 복사 완료 (코인)
+      powerUp: function () { tone(330, 0, 0.22, "triangle", 0.45, 1320); },          // 2단계 열기
+      close: function () { tone(880, 0, 0.12, "triangle", 0.35, 330); },             // 닫기
+      ding: function () { seq([[1047, 0.1], [1568, 0.3]], "triangle", 0.5, 0.07); },  // 퀘스트 체크
+      whoosh: function () { tone(220, 0, 0.3, "sawtooth", 0.18, 1760); },            // 맨위로
+      sparkle: function () { seq([[1319, 0.06], [1568, 0.06], [2093, 0.14]], "triangle", 0.35, 0.05); },
+      error: function () { seq([[196, 0.12], [147, 0.22]], "sawtooth", 0.25, 0.12); },// 실패
+      levelUp: function () {
+        seq([[523, 0.1], [659, 0.1], [784, 0.1], [1047, 0.1], [784, 0.08], [1047, 0.35]], "square", 0.3, 0.09);
+      },
+      fanfare: function () {
+        seq([[523, 0.12], [523, 0.12], [523, 0.12], [698, 0.3], [880, 0.15], [784, 0.12], [1047, 0.6]], "square", 0.3, 0.13);
+        seq([[262, 0.4], [349, 0.4], [392, 0.4], [523, 0.8]], "triangle", 0.35, 0.22);
+      }
+    };
+  })();
+
+  function initSound() {
+    var btn = document.getElementById("soundBtn");
+    function paint() {
+      if (!btn) return;
+      var on = Sound.isOn();
+      btn.classList.toggle("is-off", !on);
+      btn.setAttribute("aria-pressed", on ? "true" : "false");
+      btn.setAttribute("aria-label", on ? "효과음 끄기" : "효과음 켜기");
+      $(".sound-btn__ico", btn).textContent = on ? "🔊" : "🔇";
+      $(".sound-btn__txt", btn).textContent = on ? "소리 ON" : "소리 OFF";
+    }
+    if (btn) {
+      btn.addEventListener("click", function () {
+        Sound.setOn(!Sound.isOn());
+        paint();
+        toast(Sound.isOn() ? "🔊 효과음을 켰어요" : "🔇 효과음을 껐어요");
+      });
+    }
+    paint();
+
+    // 화면의 여러 버튼에 효과음 붙이기 (복사 버튼·소리 버튼은 따로 처리)
+    document.addEventListener("click", function (e) {
+      var t = e.target.closest ? e.target : null;
+      if (!t) return;
+      if (t.closest(".copy-btn, #soundBtn, #q4btn")) return;
+      if (t.closest("summary")) {
+        var d = t.closest("details");
+        (d && !d.open) ? Sound.powerUp() : Sound.close();
+        return;
+      }
+      if (t.closest("#toTop")) { Sound.whoosh(); return; }
+      if (t.closest("[data-idea]")) { Sound.sparkle(); return; }
+      if (t.closest(".nav a, .filters .chip, .stagemap a")) { Sound.select(); return; }
+      if (t.closest("button, .btn-pixel, .logo")) { Sound.click(); return; }
+    }, true);
+  }
+
   /* ---------- 화면 만들기 ---------- */
   function renderSimpleCards(list, mountId, prefix, mini) {
     var mount = document.getElementById(mountId);
@@ -260,6 +369,7 @@
         btn.classList.remove("is-copied");
         void btn.offsetWidth;
         setCopied(btn, true);
+        Sound.coin();
         var gained = gainXP(key);
         floatXP(btn, gained ? "+10 XP" : "복사 OK!");
         if (key === "my" && /\[여기에/.test(text)) {
@@ -268,6 +378,7 @@
           toast("📋 복사 완료! 제미나이 입력창에 붙여넣기 (Ctrl+V)");
         }
       }).catch(function () {
+        Sound.error();
         selectText(pre);
         toast("앗! 자동 복사가 막혔어요. 파랗게 선택된 글자를 Ctrl+C로 복사해요");
       });
@@ -330,7 +441,7 @@
       currentLevel = idx;
       var box = $(".xp");
       if (box) { box.classList.remove("bump"); void box.offsetWidth; box.classList.add("bump"); }
-      setTimeout(function () { toast("🆙 LEVEL UP! 이제 너는 「" + cur.name + "」", true); }, 900);
+      setTimeout(function () { Sound.levelUp(); toast("🆙 LEVEL UP! 이제 너는 「" + cur.name + "」", true); }, 450);
       confetti(40);
     }
   }
@@ -340,10 +451,14 @@
     var has = function (re) { return keys.some(function (k) { return re.test(k); }); };
     var upgrades = keys.filter(function (k) { return /^u\d+$/.test(k) || /-p2$/.test(k); }).length;
 
+    var before = { q1: questDone.q1, q2: questDone.q2, q3: questDone.q3 };
     questDone.q1 = has(/^w\d+$/);
     questDone.q2 = has(/^t\d+-p1$/) || keys.indexOf("my") > -1;
     questDone.q3 = upgrades >= 3;
     setText("q3count", "(" + Math.min(upgrades, 3) + "/3)");
+    if (["q1", "q2", "q3"].some(function (q) { return questDone[q] && !before[q]; })) {
+      setTimeout(function () { Sound.ding(); }, 380); // 퀘스트 달성 띵동
+    }
     paintQuests();
   }
 
@@ -358,6 +473,7 @@
     if (n === 4 && !allClearShown) {
       allClearShown = true;
       setTimeout(function () {
+        Sound.fanfare();
         toast("🏆 MISSION COMPLETE! 오늘의 퀘스트를 모두 깼어요!", true);
         confetti(120);
       }, 600);
@@ -369,6 +485,7 @@
     if (!btn) return;
     btn.addEventListener("click", function () {
       questDone.q4 = !questDone.q4;
+      questDone.q4 ? Sound.ding() : Sound.click();
       btn.setAttribute("aria-pressed", questDone.q4 ? "true" : "false");
       paintQuests();
     });
@@ -604,6 +721,7 @@
     initExpand();
     initCopy();
     initQuest4();
+    initSound();
     initBuilder();
     initToTop();
     syncHudHeight();
