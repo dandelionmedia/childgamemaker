@@ -708,6 +708,57 @@
     sky.innerHTML = html;
   }
 
+
+  /* ---------- 바이브코딩 미리보기 (글자가 타이핑되고 게임이 완성되는 연출) ---------- */
+  function initDemo() {
+    var typeEl = document.getElementById("demoType");
+    var screen = document.getElementById("demoScreen");
+    var emoji = document.getElementById("demoEmoji");
+    var title = document.getElementById("demoTitle");
+    if (!typeEl || !screen) return;
+    var SAMPLES = [
+      { text: "두더지 잡기 게임을 만들어줘. 구멍 9개, 30초, 잡으면 +1점!", emoji: "🐹", title: "두더지 잡기" },
+      { text: "우주선으로 운석을 피하는 게임을 만들어줘. 방향키로 움직이고 하트는 3개!", emoji: "🚀", title: "우주선 운석 피하기" },
+      { text: "도레미파솔라시도 피아노를 만들어줘. 건반을 누르면 소리가 나게!", emoji: "🎹", title: "나만의 피아노" },
+      { text: "손님 주문대로 아이스크림을 만드는 가게 게임을 만들어줘!", emoji: "🍦", title: "아이스크림 가게" }
+    ];
+    if (reduceMotion) return; // 움직임 줄이기 설정이면 첫 예시만 보여줌
+    var i = 0, timer;
+    function play() {
+      var sm = SAMPLES[i % SAMPLES.length];
+      var n = 0;
+      typeEl.textContent = "";
+      screen.classList.remove("is-done");
+      screen.classList.add("is-loading");
+      (function type() {
+        n++;
+        typeEl.textContent = sm.text.slice(0, n);
+        if (n < sm.text.length) {
+          timer = setTimeout(type, 55);
+        } else {
+          timer = setTimeout(function () {
+            emoji.textContent = sm.emoji;
+            title.textContent = sm.title;
+            screen.classList.remove("is-loading");
+            screen.classList.add("is-done");
+            i++;
+            timer = setTimeout(play, 3200);
+          }, 500);
+        }
+      })();
+    }
+    // 화면에 보일 때만 움직이기
+    if ("IntersectionObserver" in window) {
+      var running = false;
+      new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && !running) { running = true; play(); }
+        else if (!en[0].isIntersecting && running) { running = false; clearTimeout(timer); }
+      }).observe(screen);
+    } else {
+      play();
+    }
+  }
+
   /* ---------- 시작 ---------- */
   function init() {
     document.documentElement.classList.remove("no-js");
@@ -723,6 +774,7 @@
     initQuest4();
     initSound();
     initBuilder();
+    initDemo();
     initToTop();
     syncHudHeight();
     initScrollSpy();

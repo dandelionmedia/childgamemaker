@@ -57,6 +57,9 @@
   <main>
     <!-- ===== HERO ===== -->
     <section class="hero" id="home">
+      <div class="floaters" aria-hidden="true">
+        <span>👾</span><span>⭐</span><span>🚀</span><span>🎮</span><span>💎</span><span>⚡</span>
+      </div>
       <div class="hero__text reveal">
         <p class="badge-pixel">🕹️ 제미나이 캔버스 · 바이브코딩 교실</p>
         <h1 class="hero__title">
@@ -88,6 +91,36 @@
         </ol>
         <p class="questboard__tip">프롬프트를 복사하면 XP가 쌓이고 퀘스트가 자동으로 체크돼요!</p>
       </aside>
+    </section>
+
+    <!-- ===== 흐르는 전광판 ===== -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__track">
+        <span>★ 오늘의 미션: 나만의 게임 만들기</span><span>🎮 코드는 AI가, 아이디어는 내가!</span><span>⚡ 초록 버튼 = 프롬프트 한번에 복사</span><span>🛡️ 개인정보는 입력 금지</span><span>🏆 퀘스트 4개를 깨면 GAME CLEAR</span>
+        <span>★ 오늘의 미션: 나만의 게임 만들기</span><span>🎮 코드는 AI가, 아이디어는 내가!</span><span>⚡ 초록 버튼 = 프롬프트 한번에 복사</span><span>🛡️ 개인정보는 입력 금지</span><span>🏆 퀘스트 4개를 깨면 GAME CLEAR</span>
+      </div>
+    </div>
+
+    <!-- ===== 바이브코딩 미리보기 ===== -->
+    <section class="section demo" aria-label="바이브코딩은 이렇게 해요">
+      <div class="demo__box reveal">
+        <div class="demo__side">
+          <p class="demo__label">👩‍💻 내가 AI에게 하는 말</p>
+          <div class="term">
+            <div class="term__bar"><i></i><i></i><i></i><span>my_prompt.txt</span></div>
+            <pre class="term__body demo__type" id="demoType">두더지 잡기 게임을 만들어줘. 구멍 9개, 30초, 잡으면 +1점!</pre>
+          </div>
+        </div>
+        <div class="demo__arrow" aria-hidden="true"><span>AI</span>➜</div>
+        <div class="demo__side">
+          <p class="demo__label">🎮 AI가 만들어 준 게임</p>
+          <div class="demo__screen" id="demoScreen">
+            <span class="demo__emoji" id="demoEmoji">🐹</span>
+            <b class="demo__title" id="demoTitle">두더지 잡기</b>
+            <span class="demo__done" id="demoDone">✨ 게임 완성!</span>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- ===== 0. 준비 ===== -->

@@ -1331,3 +1331,297 @@ body {
 }
 /* MISSION 번호도 조금 더 크게 */
 .topic__no { font-size: 15px; letter-spacing: 1.5px; }
+
+/* =========================================================
+   v5 · 전체 글자 크게 + 더 멋진 게임 연출
+   ========================================================= */
+:root { --maxw: 1240px; }
+
+body { font-size: 19px; line-height: 1.78; }
+
+/* ----- 큰 제목 ----- */
+.section { padding-top: 80px; }
+.section__head { margin-bottom: 32px; }
+.section__head h2 {
+  font-size: clamp(30px, 4.8vw, 48px);
+  margin: 14px 0 12px;
+}
+.section__head h2::after {
+  content: "";
+  display: block;
+  width: 120px;
+  height: 8px;
+  margin-top: 14px;
+  border-radius: 4px;
+  background: repeating-linear-gradient(90deg, var(--yellow) 0 16px, var(--pink) 16px 32px, var(--cyan) 32px 48px);
+  box-shadow: 0 3px 0 #000;
+}
+.section__head p { font-size: 19.5px; color: #e4e0ff; }
+
+/* ----- HERO ----- */
+.hero { position: relative; }
+.hero__title .line1 { font-size: clamp(30px, 5.4vw, 50px); color: #d9d4fb; }
+.hero__title .line2 { font-size: clamp(50px, 10vw, 104px); }
+.hero__title .line3 { font-size: clamp(46px, 9vw, 92px); }
+.hero__desc { font-size: 21px; color: #e4e0ff; }
+.badge-pixel { font-size: 16px; padding: 8px 16px; }
+.btn-pixel { font-size: 20px; padding: 16px 26px; }
+
+.floaters { position: absolute; inset: 0; pointer-events: none; z-index: -1; }
+.floaters span {
+  position: absolute;
+  font-size: 40px;
+  opacity: .5;
+  filter: drop-shadow(0 0 12px rgba(139, 92, 246, .8));
+  animation: floaty 7s ease-in-out infinite;
+}
+.floaters span:nth-child(1) { left: 2%;  top: 8%;  animation-delay: 0s; }
+.floaters span:nth-child(2) { left: 46%; top: 4%;  font-size: 30px; animation-delay: -2s; }
+.floaters span:nth-child(3) { left: 54%; top: 78%; animation-delay: -4s; }
+.floaters span:nth-child(4) { left: 92%; top: 6%;  font-size: 34px; animation-delay: -1s; }
+.floaters span:nth-child(5) { left: 38%; top: 92%; font-size: 28px; animation-delay: -3s; }
+.floaters span:nth-child(6) { left: 96%; top: 88%; animation-delay: -5s; }
+@keyframes floaty {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50% { transform: translateY(-22px) rotate(6deg); }
+}
+
+/* 퀘스트 보드 */
+.questboard__head { font-size: 22px; }
+.questlist li { font-size: 18.5px; padding: 12px 14px; }
+.chk { width: 34px; height: 34px; font-size: 18px; }
+.questboard__tip { font-size: 16px; }
+
+/* ----- 흐르는 전광판 ----- */
+.ticker {
+  margin-top: 36px;
+  overflow: hidden;
+  background: var(--yellow);
+  border-top: 4px solid #000;
+  border-bottom: 4px solid #000;
+  transform: rotate(-1.2deg);
+  box-shadow: 0 8px 0 rgba(0, 0, 0, .35);
+}
+.ticker__track {
+  display: flex;
+  width: max-content;
+  animation: ticker 32s linear infinite;
+}
+.ticker__track span {
+  padding: 12px 34px;
+  font-family: var(--round);
+  font-size: 20px;
+  font-weight: 900;
+  color: #1d1400;
+  white-space: nowrap;
+}
+@keyframes ticker { to { transform: translateX(-50%); } }
+
+/* ----- 바이브코딩 미리보기 ----- */
+.demo { padding-top: 56px; }
+.demo__box {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 22px;
+  padding: 26px;
+  background: linear-gradient(135deg, rgba(52, 225, 255, .12), rgba(255, 92, 173, .12));
+  border: 3px solid #fff;
+  border-radius: 24px;
+  box-shadow: 8px 8px 0 #000;
+}
+.demo__label { margin: 0 0 10px; font-family: var(--round); font-weight: 900; font-size: 20px; }
+.demo__type {
+  min-height: 150px;
+  max-height: none;
+  font-size: 19px;
+  line-height: 1.75;
+}
+.demo__type::after {
+  content: "▌";
+  color: var(--green-light);
+  animation: caret 1s steps(1) infinite;
+}
+@keyframes caret { 50% { opacity: 0; } }
+.demo__arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--pixel);
+  font-size: 40px;
+  color: var(--yellow);
+  text-shadow: 3px 3px 0 #000;
+  animation: nudge 1.2s ease-in-out infinite;
+}
+.demo__arrow span {
+  font-size: 16px;
+  padding: 2px 8px;
+  color: #fff;
+  background: var(--purple);
+  border: 2px solid #fff;
+  border-radius: 6px;
+  text-shadow: none;
+}
+@keyframes nudge { 50% { transform: translateX(8px); } }
+.demo__screen {
+  position: relative;
+  min-height: 196px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background:
+    radial-gradient(circle at 50% 120%, rgba(74, 222, 128, .35), transparent 60%),
+    #070616;
+  border: 4px solid #000;
+  border-radius: 18px;
+  box-shadow: inset 0 0 0 3px #2f2a7a, inset 0 0 40px rgba(52, 225, 255, .2);
+  overflow: hidden;
+}
+.demo__screen::before {
+  /* 옛날 게임기 화면 줄무늬 */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, rgba(255, 255, 255, .04) 0 2px, transparent 2px 4px);
+  pointer-events: none;
+}
+.demo__emoji { font-size: 66px; line-height: 1; transition: transform .3s; }
+.demo__title { font-family: var(--round); font-weight: 900; font-size: 24px; }
+.demo__done {
+  font-family: var(--round);
+  font-weight: 900;
+  font-size: 19px;
+  padding: 4px 14px;
+  color: #062b12;
+  background: var(--green-light);
+  border: 3px solid #000;
+  border-radius: 10px;
+  opacity: 0;
+  transform: scale(.6);
+  transition: opacity .25s, transform .3s cubic-bezier(.2, .9, .3, 1.6);
+}
+.demo__screen.is-loading .demo__emoji { transform: scale(.4); opacity: .3; }
+.demo__screen.is-done .demo__emoji { animation: bounce .9s ease infinite; }
+.demo__screen.is-done .demo__done { opacity: 1; transform: scale(1); }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+
+/* ----- 준비 단계 ----- */
+.step h3 { font-size: 23px; }
+.step p { font-size: 18.5px; }
+.step__num { width: 46px; height: 46px; font-size: 22px; }
+.rules h3, .formula h3 { font-size: 23px; }
+.rules li { font-size: 18.5px; }
+.formula__grid b { font-size: 20px; }
+.formula__grid span { font-size: 24px; }
+.formula__grid small { font-size: 16.5px; }
+
+/* ----- 메뉴 ----- */
+.nav a { font-size: 17px; padding: 8px 16px; }
+.nav a span { width: 24px; height: 24px; font-size: 13px; }
+.logo { font-size: 22px; }
+.chip { font-size: 17.5px; min-height: 48px; padding: 8px 18px; }
+
+/* ----- 주제 카드: 분야별 색깔 띠 ----- */
+.topic { position: relative; padding: 24px; overflow: hidden; }
+.topic::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 8px;
+  background: var(--cyan);
+}
+.topic[data-cat="study"]::before { background: var(--yellow); }
+.topic[data-cat="make"]::before { background: var(--pink); }
+.topic:hover { border-color: #fff; transform: translateY(-4px); }
+.topic { transition: transform .2s, border-color .2s; }
+.topic__icon { width: 74px; height: 74px; font-size: 40px; }
+.topic__no { font-size: 16px; }
+.topic__title { font-size: 27px; }
+.topic__desc { font-size: 18px; color: #e4e0ff; }
+.tag { font-size: 15px; padding: 3px 12px; }
+.phase-label { font-size: 17px; margin-top: 8px; }
+.level2 summary { font-size: 18.5px; }
+
+/* ----- 작은 카드 ----- */
+.card { padding: 22px; }
+.card__icon { width: 58px; height: 58px; font-size: 30px; }
+.card__title { font-size: 22px; }
+.card--mini .card__title { font-size: 21px; }
+.card__desc { font-size: 17.5px; color: #e4e0ff; }
+
+/* ----- 프롬프트 상자 ----- */
+.term__body { font-size: 18px; line-height: 1.85; max-height: 320px; }
+.card--mini .term__body { max-height: 210px; }
+.term__bar { font-size: 14px; }
+
+/* ----- 복사 버튼 ----- */
+.copy-btn { font-size: 22px; min-height: 64px; border-radius: 16px; }
+.copy-btn__ico { width: 34px; height: 34px; font-size: 16px; }
+.btn-ghost { font-size: 16.5px; min-height: 50px; }
+
+/* ----- 나만의 게임 ----- */
+.field span { font-size: 19px; }
+.field input, .field textarea { font-size: 18px; }
+.idea-chips { font-size: 17px; }
+.chip--sm { font-size: 16px; min-height: 42px; }
+
+/* ----- 기타 ----- */
+.toast { font-size: 18.5px; }
+.footer__big { font-size: 22px; }
+.footer p { font-size: 17px; }
+.totop { width: 74px; height: 74px; font-size: 16px; }
+.xp__lv { font-size: 16px; }
+.xp__name { font-size: 14px; }
+.xp__num { font-size: 15px; }
+.xp__num b { font-size: 19px; }
+
+/* ----- 태블릿 ----- */
+@media (max-width: 1024px) {
+  .demo__box { grid-template-columns: 1fr; }
+  .demo__arrow { flex-direction: row; gap: 10px; transform: rotate(90deg); justify-self: center; animation: none; }
+}
+
+/* ----- 스마트폰 ----- */
+@media (max-width: 720px) {
+  body { font-size: 17.5px; }
+  .section { padding-top: 60px; }
+  .section__head h2 { font-size: clamp(27px, 7.4vw, 34px); }
+  .section__head p { font-size: 17.5px; }
+  .hero__desc { font-size: 18px; }
+  .btn-pixel { font-size: 18px; }
+  .floaters span { font-size: 28px; }
+  .ticker__track span { font-size: 17px; padding: 10px 24px; }
+  .demo__box { padding: 16px; gap: 14px; }
+  .demo__label { font-size: 18px; }
+  .demo__type { font-size: 17px; min-height: 130px; }
+  .demo__screen { min-height: 170px; }
+  .questlist li { font-size: 17px; }
+  .nav a { font-size: 15.5px; padding: 6px 12px; }
+  .chip { font-size: 16px; }
+  .topic { padding: 18px 16px; }
+  .topic__icon { width: 60px; height: 60px; font-size: 32px; }
+  .topic__title { font-size: 23px; }
+  .topic__desc { font-size: 16.5px; }
+  .card { padding: 18px 16px; }
+  .card__title { font-size: 20px; }
+  .term__body { font-size: 16.5px; max-height: 270px; }
+  .copy-btn { font-size: 19.5px; min-height: 60px; }
+  .step p, .rules li { font-size: 17px; }
+  .field span { font-size: 17.5px; }
+  .footer__big { font-size: 19px; }
+  .totop { width: 64px; height: 64px; font-size: 14px; }
+  .xp__lv { font-size: 14px; }
+}
+/* 기울어진 전광판·떠다니는 아이콘이 화면 옆으로 넘치지 않게 */
+main { overflow-x: hidden; overflow-x: clip; }
+@media (max-width: 720px) {
+  .xp__num { display: none; }
+  .xp__bar { width: 78px; }
+  .floaters span { opacity: .3; }
+  .floaters span:nth-child(2),
+  .floaters span:nth-child(3),
+  .floaters span:nth-child(5) { display: none; }
+  .floaters span:nth-child(1) { left: 84%; top: 34%; }
+}
