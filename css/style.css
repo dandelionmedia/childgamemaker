@@ -1628,3 +1628,41 @@ main { overflow-x: hidden; overflow-x: clip; }
 @media (min-width: 721px) {
   .floaters span:nth-child(1) { left: -3%; top: 46%; }
 }
+
+/* =========================================================
+   v7 · NEW 미션 표시
+   ========================================================= */
+.newbadge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 8px;
+  font-style: normal;
+  font-family: var(--round);
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: #fff;
+  background: var(--pink);
+  border: 2px solid #000;
+  border-radius: 6px;
+  vertical-align: 2px;
+  animation: newpulse 1.6s ease-in-out infinite;
+}
+@keyframes newpulse { 50% { transform: scale(1.1); filter: brightness(1.2); } }
+.stagemap a.is-new::before {
+  content: "NEW";
+  position: absolute;
+  top: -11px;
+  left: 8px;
+  padding: 1px 6px;
+  font-family: var(--round);
+  font-weight: 900;
+  font-size: 11px;
+  letter-spacing: .5px;
+  color: #fff;
+  background: var(--pink);
+  border: 2px solid #000;
+  border-radius: 6px;
+}
+.chip--new { border-color: var(--pink); }
+.chip--new.is-on { background: var(--pink); box-shadow: 0 4px 0 #a32566; }

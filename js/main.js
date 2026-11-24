@@ -199,11 +199,11 @@
       var p1 = "p-" + t.id + "-1";
       var p2 = "p-" + t.id + "-2";
       return (
-        '<article class="topic reveal" id="' + t.id + '" data-cat="' + t.cat + '">' +
+        '<article class="topic reveal' + (t.isNew ? " is-new" : "") + '" id="' + t.id + '" data-cat="' + t.cat + '" data-new="' + (t.isNew ? 1 : 0) + '">' +
           '<div class="topic__head">' +
             '<div class="topic__icon" aria-hidden="true">' + t.emoji + "</div>" +
             "<div>" +
-              '<span class="topic__no">MISSION ' + no + "</span>" +
+              '<span class="topic__no">MISSION ' + no + (t.isNew ? ' <em class="newbadge">NEW</em>' : "") + "</span>" +
               '<h3 class="topic__title">' + esc(t.title) + "</h3>" +
               '<div class="topic__tags">' +
                 '<span class="tag tag--' + t.cat + '">' + CAT_NAME[t.cat] + "</span>" +
@@ -232,7 +232,7 @@
       map.innerHTML = TOPICS.map(function (t, i) {
         var no = ("0" + (i + 1)).slice(-2);
         return (
-          '<a href="#' + t.id + '" data-cat="' + t.cat + '" data-map="' + t.id + '">' +
+          '<a href="#' + t.id + '" data-cat="' + t.cat + '" data-new="' + (t.isNew ? 1 : 0) + '" data-map="' + t.id + '"' + (t.isNew ? ' class="is-new"' : "") + '>' +
             '<span class="n">' + no + "</span>" +
             '<span class="e" aria-hidden="true">' + t.emoji + "</span>" +
             "<span>" + esc(t.title) + "</span>" +
@@ -246,6 +246,7 @@
     setText("nGame", count("game"));
     setText("nStudy", count("study"));
     setText("nMake", count("make"));
+    setText("nNew", TOPICS.filter(function (t) { return t.isNew; }).length);
   }
 
   function setText(id, v) {
@@ -262,12 +263,13 @@
           c.classList.toggle("is-on", c === chip);
           c.setAttribute("aria-pressed", c === chip ? "true" : "false");
         });
-        $$(".topic").forEach(function (el) {
-          el.classList.toggle("is-hidden", f !== "all" && el.getAttribute("data-cat") !== f);
-        });
-        $$("#stageMap a").forEach(function (el) {
-          el.style.display = f !== "all" && el.getAttribute("data-cat") !== f ? "none" : "";
-        });
+        var hide = function (el) {
+          if (f === "all") return false;
+          if (f === "new") return el.getAttribute("data-new") !== "1";
+          return el.getAttribute("data-cat") !== f;
+        };
+        $$(".topic").forEach(function (el) { el.classList.toggle("is-hidden", hide(el)); });
+        $$("#stageMap a").forEach(function (el) { el.style.display = hide(el) ? "none" : ""; });
         refreshExpandButtons();
       });
     });
